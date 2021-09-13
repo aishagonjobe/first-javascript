@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div>
+<form name="myForm" onsubmit= return "validateForm()" method="post">
+
+  <label for="uid">User ID:</label>
+  <input type="text" id="uid" name="uid" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" 
+    title="Must contain at least one number and one uppercase and lowercase letter, 8 to 12 characters"><br>
+ 
+  <label for="fname">First name:</label>
+  <input type="text" id="fname" name="fname"><br>
+ 
+  <label for="lname">Last name:</label>
+  <input type="text" id="lname" name="lname"><br>
+ 
+  <label for="birthday">Birthday:</label>
+  <input type="date" id="birthday" name="birthday"><br>
+ 
+  <input type="submit" value="Accept">
+</form>
+
+<p id="output"></p>
+<p id="birthday"> You have been breathing for y days!</p>
+
+document.getElementById("demo").innerHTML = 5 + 6;
+
+</div>
+
+<script>
+ 
+  function validateForm() {
+  let w = document.forms["myForm"]["fname"].value;
+  if (w == "") {
+    alert("First name must be filled out");
+    return false;
+  
+  let x = document.forms["myForm"]["lname"].value;
+  if (x == "") {
+    alert("Last name must be filled out");
+    return false;
+  
+  let y = document.forms["myForm"]["uid"].value;
+  if (y == "") {
+    alert("User ID must be filled out");
+    return false;  
+  
+  let z = document.forms["myForm"]["birthday"].value;
+  if (z == "") {
+    alert("Birthday must be filled out");
+    return false;   
+  }
+ }
+  function dateDiff() {
+   var d = Date.parse("birthday");
+   var minutes = 1000 * 60;
+   var hours = minutes * 60;
+   var days = hours * 24;
+   var years = days * 365;
+   var y = Math.round(d / days);
+
+   document.getElementById("birthday").innerHTML = y;
+ }
+    
+        
+</script>
+
+</body>
+</html>
+ 
