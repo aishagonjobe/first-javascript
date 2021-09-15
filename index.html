@@ -3,67 +3,120 @@
 <body>
 
 <div>
-<form name="myForm" onsubmit= return "validateForm()" method="post">
+    <form name="myForm">
 
-  <label for="uid">User ID:</label>
-  <input type="text" id="uid" name="uid" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" 
-    title="Must contain at least one number and one uppercase and lowercase letter, 8 to 12 characters"><br>
- 
-  <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br>
- 
-  <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname"><br>
- 
-  <label for="birthday">Birthday:</label>
-  <input type="date" id="birthday" name="birthday"><br>
- 
-  <input type="submit" value="Accept">
-</form>
+        <label for="uid">User ID:</label>
+        <input type="text" id="uid" name="uid"><br>
 
-<p id="output"></p>
-<p id="birthday"> You have been breathing for y days!</p>
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br>
 
-document.getElementById("demo").innerHTML = 5 + 6;
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br>
+
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="birthday"><br>
+
+        <input type="button" value="Accept" onclick="validateForm()">
+    </form>
+
+    <p id="output"></p>
+    <p id="daysBreathing"></p>
+    <p id="under18"></p>
+    <p id="Staircase"></p>
+
 
 </div>
 
 <script>
- 
-  function validateForm() {
-  let w = document.forms["myForm"]["fname"].value;
-  if (w == "") {
-    alert("First name must be filled out");
-    return false;
-  
-  let x = document.forms["myForm"]["lname"].value;
-  if (x == "") {
-    alert("Last name must be filled out");
-    return false;
-  
-  let y = document.forms["myForm"]["uid"].value;
-  if (y == "") {
-    alert("User ID must be filled out");
-    return false;  
-  
-  let z = document.forms["myForm"]["birthday"].value;
-  if (z == "") {
-    alert("Birthday must be filled out");
-    return false;   
-  }
- }
-  function dateDiff() {
-   var d = Date.parse("birthday");
-   var minutes = 1000 * 60;
-   var hours = minutes * 60;
-   var days = hours * 24;
-   var years = days * 365;
-   var y = Math.round(d / days);
+    StairCase(20)
 
-   document.getElementById("birthday").innerHTML = y;
- }
-    
-        
+    function validateForm() {
+        {
+            var w = document.forms["myForm"]["fname"].value;
+            if (w == "") {
+                alert("First name must be filled out");
+                console.log("First name must be filled out");
+            }
+
+            var x = document.forms["myForm"]["lname"].value;
+            if (x == "") {
+                alert("Last name must be filled out");
+                console.log("Last name must be filled out");
+            }
+
+            var y = document.forms["myForm"]["uid"].value;
+            if (y == "") {
+                alert("User ID must be filled out");
+                console.log("User ID must be filled out");
+            } else if (validateUid(y)) {
+                console.log("Successful User ID");
+            } else {
+                alert("Must contain at least one number and one uppercase and lowercase letter, 8 to 12 characters");
+            }
+        }
+
+        var z = document.forms["myForm"]["birthday"].value;
+        if (z == "") {
+            alert("Birthday must be filled out");
+            console.log("Birthday must be filled out");
+        }
+        console.log(w);
+        console.log(x);
+        console.log(y);
+        console.log(z);
+
+        document.getElementById("daysBreathing").innerHTML = `You have been breathing for ${dateDiff(z)} days.`;
+
+        if (dateDiff(z) < (365 * 18)) {
+            document.getElementById("under18").innerHTML = "You are probably not old enough to take this class.";
+        } else {
+            document.getElementById("under18").innerHTML = "";
+        }
+        StairCase(20)
+    }
+
+    function validateUid(uid) {
+        var uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var lowercase = "abcdefghijklmnopqrstuvwxyz";
+        var digits = "0123456789";
+        var ucaseFlag = contains(uid, uppercase);
+        var lcaseFlag = contains(uid, lowercase);
+        var digitsFlag = contains(uid, digits);
+        if (uid.length >= 8 && uid.length <= 12 && ucaseFlag && lcaseFlag && digitsFlag)
+            return true;
+        else
+            return false;
+    }
+
+    function contains(uid, allowedChars) {
+        for (i = 0; i < uid.length; i++) {
+            var char = uid.charAt(i);
+            if (allowedChars.indexOf(char) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function dateDiff(birthday) {
+        let today = new Date();
+        let Difference_In_Time = today.getTime() - Date.parse(birthday);
+        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        return (Math.floor(Difference_In_Days))
+    }
+
+    function StairCase(n) {
+        let str = "";
+        let stairs = "";
+        let i;
+        for (let i = 0; i < n; i++) {
+            stairs += "<p>" + str.padStart(i, "X") + "</p>";
+            document.getElementById("Staircase").innerHTML = stairs
+            //console.log("X".repeat(i).padStart(n));
+        }
+    }
+
 </script>
 
 </body>
